@@ -1,4 +1,4 @@
-package project;
+package javaGames;
 
 public class Minesweeper extends Games {
     public Minesweeper(String user) {
@@ -6,8 +6,9 @@ public class Minesweeper extends Games {
     }
         public static void Game(String user) {
         System.out.println("""
-            *** Minesweeper ***
-            Avoid the bomb square,
+             
+             *** Minesweeper ***
+            Avoid the bomb,
             guess as many correct numbers as you can!
             Guess number between 1 and 5: """);
 

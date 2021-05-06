@@ -1,4 +1,4 @@
-package project;
+package javaGames;
 
 import java.io.File;
 import java.io.IOException;
@@ -7,6 +7,7 @@ import java.util.Scanner;
 public class Menus {
     public static void mainMenu() {
         String user = "";
+        System.out.println("Welcome!");
         int userChoice = userWelcome();
 
         if (userChoice == 0)
@@ -30,14 +31,11 @@ public class Menus {
     }
 
     public static int userWelcome() {
-        System.out.println("""
-                Welcome!
-
-                Press 1 to start, or 0 to quit.""");
+        System.out.println("Press 1 to start, or 0 to quit.");
         Scanner prompt = new Scanner(System.in);
         int userInput = prompt.nextInt();
 
-        while (userInput < 0 || userInput > 3) {
+        while (userInput != 0 && userInput != 1) {
             System.out.println("Sorry, we don't understand.");
             userInput = userWelcome();
         }
@@ -48,14 +46,13 @@ public class Menus {
         String[] gameStore = {"Minesweeper", "PacMan", "Hangman"};
         Minesweeper minesweeper = new Minesweeper(user);
 
-        System.out.println("New Player " + user + "\n" +
+        System.out.println("\nNew Player " + user + "\n" +
                 "Please select a game: \n" +
                 "1. " + gameStore[0] + "\n" +
                 "2. " + gameStore[1] + "\n" +
                 "3. " + gameStore[2]);
         Scanner prompt = new Scanner(System.in);
         int userInput = prompt.nextInt();
-        System.out.println(gameStore[userInput-1]);
 
         if (userInput == 1)
             minesweeper.Game(user);
@@ -70,7 +67,7 @@ public class Menus {
             if (myObj.createNewFile()) {
                 System.out.println("File created: " + myObj.getName());
             } else {
-                System.out.println(".....");
+                System.out.println("Leaderboard Loading.....");
             }
         } catch (IOException e) {
             System.out.println("An error occurred.");

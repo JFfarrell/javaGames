@@ -1,7 +1,9 @@
-package project;
+package javaGames;
 
+import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -43,15 +45,23 @@ public class Games {
     }
 
     public static void writeToLeaderboard(String user, int score) {
-        try {
-            FileWriter myWriter = new FileWriter("leaderboard.txt");
-            myWriter.write(user + ":" + score);
-            myWriter.close();
-            System.out.println("Score added to leaderboard.");
+        try(FileWriter fw = new FileWriter("leaderboard.txt", true);
+            BufferedWriter bw = new BufferedWriter(fw);
+            PrintWriter out = new PrintWriter(bw))
+        {
+            out.println(user + ":" + score);
         } catch (IOException e) {
-            System.out.println("An error occurred.");
-            e.printStackTrace();
+            //exception handling left as an exercise for the reader
         }
+//        try {
+//            FileWriter myWriter = new FileWriter("leaderboard.txt");
+//            myWriter.write(user + ":" + score);
+//            myWriter.close();
+//            System.out.println("Score added to leaderboard.");
+//        } catch (IOException e) {
+//            System.out.println("An error occurred.");
+//            e.printStackTrace();
+//        }
     }
 
     public String getUser() {

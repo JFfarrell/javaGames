@@ -1,4 +1,4 @@
-package project;
+package javaGames;
 
 public class Main {
     public static void main(String[] args) {
