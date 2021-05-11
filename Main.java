@@ -3,7 +3,7 @@ package javaGames;
 public class Main {
     public static void main(String[] args) {
         System.out.println("Get Ready to Play!");
-        Menus.createLeaderboard();
+        //Leaderboard.createLeaderboard();
         Menus.mainMenu();
     }
 }

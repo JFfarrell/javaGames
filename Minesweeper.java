@@ -1,10 +1,13 @@
 package javaGames;
 
 public class Minesweeper extends Games {
-    public Minesweeper(String user) {
+    private String rank;
+    private String username;
+    public Minesweeper(Player user) {
         super(user);
+        username = user.getUsername();
     }
-        public static void Game(String user) {
+        public static void playMinesweeper(Player user) {
         System.out.println("""
              
              *** Minesweeper ***
@@ -20,13 +23,13 @@ public class Minesweeper extends Games {
         int userGuess = takeUserInput();
 
         if (userGuess == 0)
-            Games.postGame(user, 0);
+            Games.postGame(user, 0, "minesweeper");
 
         // assuming errors not present...
         while (userGuess >= 0 && userGuess <= max) {
             if (userGuess == 0) {
                 System.out.println("User Exited.");
-                postGame(user, 0);
+                postGame(user, 0, "minesweeper");
             }
 
             int random = (int) (Math.random() * (max - min + 1) + min);
@@ -35,7 +38,7 @@ public class Minesweeper extends Games {
                 System.out.println("""
                         Ka-Boom, You died.""");
                 System.out.println("\nFinal Score: " + score);
-                postGame(user, score);
+                postGame(user, score, "minesweeper");
             }
 
             score += 1;

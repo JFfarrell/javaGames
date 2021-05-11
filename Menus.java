@@ -1,20 +1,29 @@
 package javaGames;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.Scanner;
 
 public class Menus {
     public static void mainMenu() {
-        String user = "";
+        String username = "";
         System.out.println("Welcome!");
         int userChoice = userWelcome();
 
         if (userChoice == 0)
             quit();
         else
-            user = createUserProfile();
+            username = getUsername();
 
+        createUserProfile(username);
+    }
+
+    public static void createUserProfile(String username) {
+        if (username.equals("12345")) {
+            Hack user = new Hack();
+            user.setUsername("HackMaster");
+            gameSelect(user);
+        }
+        Player user = new Player(username);
+        user.setUsername(username);
         gameSelect(user);
     }
 
@@ -23,10 +32,12 @@ public class Menus {
         System.exit(1);
     }
 
-    public static String createUserProfile() {
+    public static String getUsername() {
         System.out.print("Please enter you name: ");
         Scanner prompt = new Scanner(System.in);
-        String userInput = prompt.next();
+        String userInput = prompt.nextLine();
+        if (userInput == "")
+            userInput = "Player 1";
         return userInput;
     }
 
@@ -42,11 +53,10 @@ public class Menus {
         return userInput;
     }
 
-    public static void gameSelect(String user) {
-        String[] gameStore = {"Minesweeper", "PacMan", "Hangman"};
-        Minesweeper minesweeper = new Minesweeper(user);
+    public static void gameSelect(Player user) {
+        String[] gameStore = {"Minesweeper", "Pokemon Battle", "Dice Roll"};
 
-        System.out.println("\nNew Player " + user + "\n" +
+        System.out.println("\nNew Player " + user.getUsername() + "\n" +
                 "Please select a game: \n" +
                 "1. " + gameStore[0] + "\n" +
                 "2. " + gameStore[1] + "\n" +
@@ -54,24 +64,26 @@ public class Menus {
         Scanner prompt = new Scanner(System.in);
         int userInput = prompt.nextInt();
 
-        if (userInput == 1)
-            minesweeper.Game(user);
+        if (userInput == 1) {
+            Leaderboard.createLeaderboard("minesweeper");
+            Minesweeper minesweeper = new Minesweeper(user);
+            minesweeper.playMinesweeper(user);
+        }
+
+        if (userInput == 2) {
+            Leaderboard.createLeaderboard("pokemon");
+            pokemon battle = new pokemon(user);
+            pokemon.playRPS(user);
+        }
+
+        if (userInput == 3) {
+            Leaderboard.createLeaderboard("dice");
+            DiceRoll roll = new DiceRoll(user);
+            roll.rollTheDice(user);
+        }
+
         else
             System.out.println("Please check back later for more games...");
     }
 
-    public static void createLeaderboard() {
-        // code from https://www.w3schools.com/java/java_files_create.asp
-        try {
-            File myObj = new File("leaderboard.txt");
-            if (myObj.createNewFile()) {
-                System.out.println("File created: " + myObj.getName());
-            } else {
-                System.out.println("Leaderboard Loading.....");
-            }
-        } catch (IOException e) {
-            System.out.println("An error occurred.");
-            e.printStackTrace();
-        }
-    }
 }

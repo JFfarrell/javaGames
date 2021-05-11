@@ -8,18 +8,23 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Games {
-    public String user;
-    public Games(String user){
-        user = user;
+
+    private String username;
+    private String rank;
+
+    public Games(Player user) {
+        username = user.getUsername();
     }
 
-    public Games(){
-        String user = "Player 1";
-    }
+    public static void postGame(Player user, int score, String game) {
+        if (user instanceof Hack && score > 0) {
+            System.out.println("Hack Privileges Activated: Score Doubled! \n");
+            score = score * 2;
+        }
+        writeToLeaderboard(user.getUsername(), score, game);
 
-    public static void postGame(String user, int score) {
-        writeToLeaderboard(user, score);
         System.out.println("""
+                                
                 Press 1 to return to the main menu.
                 Press 2 to choose a new game.""");
          Scanner option = new Scanner(System.in);
@@ -39,36 +44,23 @@ public class Games {
         } catch (InputMismatchException ime) {
             //Display Error message
             System.out.println("Sorry, please try again, or press 0 to quit.");
-            inputValue = takeUserInput();//Advance the scanner
+            inputValue = takeUserInput();
         }
         return inputValue;
     }
 
-    public static void writeToLeaderboard(String user, int score) {
-        try(FileWriter fw = new FileWriter("leaderboard.txt", true);
-            BufferedWriter bw = new BufferedWriter(fw);
-            PrintWriter out = new PrintWriter(bw))
-        {
-            out.println(user + ":" + score);
-        } catch (IOException e) {
-            //exception handling left as an exercise for the reader
+    public static void writeToLeaderboard(String user, int score, String game) {
+        if (score == 0)
+            System.out.println("Well, that wasn't great...better luck next time!");
+        if (score >  0) {
+            try (FileWriter fw = new FileWriter(game+"leaderboard.txt", true);
+                 BufferedWriter bw = new BufferedWriter(fw);
+                 PrintWriter out = new PrintWriter(bw)) {
+                out.println(user + ":" + score);
+            } catch (IOException ignored) {
+            }
         }
-//        try {
-//            FileWriter myWriter = new FileWriter("leaderboard.txt");
-//            myWriter.write(user + ":" + score);
-//            myWriter.close();
-//            System.out.println("Score added to leaderboard.");
-//        } catch (IOException e) {
-//            System.out.println("An error occurred.");
-//            e.printStackTrace();
-//        }
-    }
-
-    public String getUser() {
-        return user;
-    }
-
-    public void setUser(String user) {
-        this.user = user;
+        //sort and display leaderboard
+        Leaderboard.Display(game);
     }
 }
