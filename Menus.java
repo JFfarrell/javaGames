@@ -22,6 +22,13 @@ public class Menus {
             user.setUsername("HackMaster");
             gameSelect(user);
         }
+        if (username.equals("Challenger")) {
+            System.out.println("Welcome Challenger. Please enter your username: ");
+            String challengerUsername = "Challenger " + getUsername();
+            Challenger user = new Challenger();
+            user.setUsername(challengerUsername);
+            gameSelect(user);
+        }
         Player user = new Player(username);
         user.setUsername(username);
         gameSelect(user);
@@ -43,8 +50,7 @@ public class Menus {
 
     public static int userWelcome() {
         System.out.println("Press 1 to start, or 0 to quit.");
-        Scanner prompt = new Scanner(System.in);
-        int userInput = prompt.nextInt();
+        int userInput = Main.takeUserInput();
 
         while (userInput != 0 && userInput != 1) {
             System.out.println("Sorry, we don't understand.");
@@ -60,9 +66,19 @@ public class Menus {
                 "Please select a game: \n" +
                 "1. " + gameStore[0] + "\n" +
                 "2. " + gameStore[1] + "\n" +
-                "3. " + gameStore[2]);
-        Scanner prompt = new Scanner(System.in);
-        int userInput = prompt.nextInt();
+                "3. " + gameStore[2] + "\n" +
+                "or Press 0 to return to the main menu.");
+
+        if (user instanceof Challenger)
+            System.out.println("Challenger Profile detected. Games will be harder.");
+        if (user instanceof Hack)
+            System.out.println("Hack Profile detected.");
+
+        int userInput = Main.takeUserInput();
+
+        if (userInput == 0) {
+            mainMenu();
+        }
 
         if (userInput == 1) {
             Leaderboard.createLeaderboard("minesweeper");
@@ -82,8 +98,10 @@ public class Menus {
             roll.rollTheDice(user);
         }
 
-        else
+        else {
             System.out.println("Please check back later for more games...");
+            gameSelect(user);
+        }
     }
 
 }

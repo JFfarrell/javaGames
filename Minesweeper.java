@@ -1,12 +1,13 @@
 package javaGames;
 
 public class Minesweeper extends Games {
-    private String rank;
     private String username;
+
     public Minesweeper(Player user) {
         super(user);
         username = user.getUsername();
     }
+
         public static void playMinesweeper(Player user) {
         System.out.println("""
              
@@ -19,33 +20,50 @@ public class Minesweeper extends Games {
         int min = 1;
         int score = 0;
 
-        // check the user's input for errors.
-        int userGuess = takeUserInput();
+        if (user instanceof Challenger){
+            System.out.println("Challenger Mode activated!");
+            max -= 1;
+        }
 
-        if (userGuess == 0)
-            Games.postGame(user, 0, "minesweeper");
+        // check if exit or guess
+        int userGuess = exitOrGuess(user, "minesweeper");
 
         // assuming errors not present...
-        while (userGuess >= 0 && userGuess <= max) {
-            if (userGuess == 0) {
-                System.out.println("User Exited.");
-                postGame(user, 0, "minesweeper");
-            }
-
+        while (userGuess >= 0) {
+            // produce a random number and check if user's guess matches
             int random = (int) (Math.random() * (max - min + 1) + min);
 
-            if (userGuess == random) {
-                System.out.println("""
-                        Ka-Boom, You died.""");
-                System.out.println("\nFinal Score: " + score);
-                postGame(user, score, "minesweeper");
+            // various conditions and error checks
+            checkInput(user, userGuess, random, score, max);
+
+            if (userGuess > max){
+                System.out.println("Please guess between 1 and 5...");
+                userGuess = exitOrGuess(user, "minesweeper");
             }
 
             score += 1;
-            System.out.println(String.format("phew...good guess.\n" +
-                    "Score: " + score + "\n" +
-                    "Guess again, or press Q to quit."));
-            userGuess = takeUserInput();
+            System.out.println("You guessed " + userGuess);
+            System.out.println("phew...good guess!\n" +
+                    "The bomb was on: " + random + "\n" +
+                    "Score: " + score + "\n\n" +
+                    "Guess again, or press 0 to quit.");
+            userGuess = Main.takeUserInput();
+        }
+    }
+
+    public static void checkInput(Player user, int userGuess, int random, int score, int max) {
+        if (userGuess == random) {
+            System.out.println("""
+                        (((≪*☆*KA-BOOM*☆*≫)))
+                        You lose...""");
+            System.out.println("\nFinal Score: " + score);
+            postGame(user, score, "minesweeper");
+        }
+
+        if (userGuess == 0) {
+            System.out.println("User Exited.");
+            System.out.println("Score: " + score);
+            postGame(user, score, "minesweeper");
         }
     }
 }

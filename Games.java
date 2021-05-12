@@ -4,13 +4,10 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.InputMismatchException;
-import java.util.Scanner;
 
 public class Games {
 
     private String username;
-    private String rank;
 
     public Games(Player user) {
         username = user.getUsername();
@@ -27,31 +24,22 @@ public class Games {
                                 
                 Press 1 to return to the main menu.
                 Press 2 to choose a new game.""");
-         Scanner option = new Scanner(System.in);
-         int userExit = option.nextInt();
-         if (userExit == 1)
+        int userInput = Main.takeUserInput();
+        if (userInput == 1)
              Menus.mainMenu();
-         else if (userExit == 2)
+        else if (userInput == 2)
              Menus.gameSelect(user);
-    }
-
-    public static int takeUserInput() {
-        int inputValue = 0;
-        Scanner userInput = new Scanner(System.in);
-        try {
-            inputValue = userInput.nextInt();
-            return inputValue;
-        } catch (InputMismatchException ime) {
-            //Display Error message
-            System.out.println("Sorry, please try again, or press 0 to quit.");
-            inputValue = takeUserInput();
-        }
-        return inputValue;
+        else {
+             System.out.println("""
+                     Sorry, we don't understand...
+                     Returning to game select menu.""");
+             Menus.gameSelect(user);
+         }
     }
 
     public static void writeToLeaderboard(String user, int score, String game) {
         if (score == 0)
-            System.out.println("Well, that wasn't great...better luck next time!");
+            System.out.println("\nWell, that wasn't great...better luck next time!");
         if (score >  0) {
             try (FileWriter fw = new FileWriter(game+"leaderboard.txt", true);
                  BufferedWriter bw = new BufferedWriter(fw);
@@ -62,5 +50,14 @@ public class Games {
         }
         //sort and display leaderboard
         Leaderboard.Display(game);
+    }
+
+    public static int exitOrGuess(Player user, String game) {
+        // check the user's input for errors.
+        int userGuess = Main.takeUserInput();
+
+        if (userGuess == 0)
+            Games.postGame(user, 0, game);
+        return userGuess;
     }
 }

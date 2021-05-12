@@ -11,8 +11,11 @@ public class Leaderboard {
             File myFile = new File(game+"Leaderboard.txt");
             Scanner file = new Scanner(myFile);
 
-            // function to return array of counts
+            // divide text file into lines/strings
             List<ArrayList<String>> sortedLeaderboard = splitLeaderboardFile(file);
+            // display leaderboard contents
+            System.out.println(game + " Leaderboard");
+            System.out.println("-------------");
             printLeaderboard(sortedLeaderboard);
 
             file.close();
@@ -56,7 +59,9 @@ public class Leaderboard {
         // check the index of the biggest number and replace that number with -1, to get the next
         for (int x = 0; x < unsortedScores.size(); x++) {
             for (int y = 0; y < unsortedScores.size(); y++) {
-                if (unsortedIntScores.get(y) == Collections.max(unsortedIntScores) && unsortedIntScores.get(y) > 0) {
+                // get the index of the biggest item and save it
+                if (unsortedIntScores.get(y) == Collections.max(unsortedIntScores)
+                        && unsortedIntScores.get(y) > 0) {
                     indexes.add(y);
                     unsortedIntScores.set(y, Integer.valueOf(-1));
                 }
@@ -93,7 +98,7 @@ public class Leaderboard {
             if (myObj.createNewFile()) {
                 System.out.println("File created: " + myObj.getName());
             } else {
-                System.out.println("Leaderboard Loading.....");
+                System.out.println("Leaderboard Loading.....\n");
             }
         } catch (IOException e) {
             System.out.println("An error occurred.");
