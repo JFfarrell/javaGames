@@ -18,8 +18,10 @@ public class Menus {
 
     public static void createUserProfile(String username) {
         if (username.equals("12345")) {
+            System.out.println("Welcome Hack. Please enter your username: ");
+            String hackUsername = "Hack " + getUsername();
             Hack user = new Hack();
-            user.setUsername("HackMaster");
+            user.setUsername(hackUsername);
             gameSelect(user);
         }
         if (username.equals("Challenger")) {

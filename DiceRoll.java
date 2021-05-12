@@ -98,13 +98,15 @@ public class DiceRoll extends Games {
             int random2 = (int) (Math.random() * (max - min + 1) + min);
 
             if (userGuess == random || userGuess == random2) {
-                System.out.println("Hard Luck, the roll was " + random +".");
+                System.out.println("Hard Luck, the rolls were " + random +" and " + random2 + ".");
                 System.out.println("Your Score: " + score);
                 postGame(user, score, "dice");
             }
 
-            score += 2*(5/(Math.ceil(Math.abs(userGuess - random))));
-            System.out.println("Good Guess, the dice roll was " + random);
+            // bonus scoring for challenger mode
+            score += 2*(5/(Math.ceil(Math.abs(userGuess - random)) + Math.abs(userGuess - random2)));
+
+            System.out.println("Good Guess, the rolls were " + random +" and " + random2 + ".");
             System.out.println("Score: " + score);
             System.out.println("Guess again, or press 0 to quit.");
             userGuess = Main.takeUserInput();
