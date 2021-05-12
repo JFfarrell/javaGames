@@ -1,11 +1,11 @@
 package javaGames;
 
-public class pokemon extends Games{
-    public pokemon(Player user) {
+public class Pokemon extends Games{
+    public Pokemon(Player user) {
         super(user);
     }
 
-    public static void playRPS(Player user) {
+    public static void playPKMN(Player user) {
         System.out.println("Play Epic Battle Music... https://www.youtube.com/watch?v=PnIOoSVGUs0");
         System.out.println("""
              
@@ -13,15 +13,17 @@ public class pokemon extends Games{
             
             Choose 1 for Charmander
             Choose 2 for Squirtle
-            Choose 3 for Bulbasaur: """);
+            Choose 3 for Bulbasaur:""");
 
         int max = 3;
         int min = 1;
         int score = 0;
 
+        // provide different function for this sub-class of player
         if (user instanceof Challenger)
             System.out.println("Challenger Mode activated!");
 
+        // make sure user is not choosing to exit
         int iChooseYou = exitOrGuess(user, "pokemon");
 
         // assuming errors not present...
@@ -35,10 +37,10 @@ public class pokemon extends Games{
 
             int random = (int) (Math.random() * (max - min + 1) + min);
 
+            // check for exit command from user (0)
             Exit(user, iChooseYou, score);
 
-            System.out.println(random);
-            score = Battle(random - 1, iChooseYou - 1, score, user);
+            score = battle(random - 1, iChooseYou - 1, score, user);
 
             if (score <= 0) {
                 System.out.println("You lose...");
@@ -46,19 +48,11 @@ public class pokemon extends Games{
                 postGame(user, score, "pokemon");
         }
             System.out.println("Choose another pokemon to go again, or press 0 to quit.");
-            iChooseYou = Main.takeUserInput();
+            iChooseYou = Main.checkIfInt();
         }
     }
 
-    public static void Exit(Player user, int iChooseYou, int score) {
-        if (iChooseYou == 0) {
-            System.out.println("User Exited.");
-            System.out.println("Score: " + score + "\n");
-            postGame(user, score, "pokemon");
-        }
-    }
-
-    public static int Battle(int opponentChoice, int userChoice, int score, Player user) {
+    private static int battle(int opponentChoice, int userChoice, int score, Player user) {
         // associate the user and random ints with a rock-paper-scissors pokemon game
         // Charmander beats Bulbasaur, Bulbasaur beats Squirtle, Squirtle beats Charmander
         System.out.println("in check winner: " + opponentChoice);
@@ -83,7 +77,7 @@ public class pokemon extends Games{
         return score;
     }
 
-    public static int calculateScores(int userChoice, int opponentChoice, String userPoke,
+    private static int calculateScores(int userChoice, int opponentChoice, String userPoke,
                                       String oppPoke, int score, int random, Player user) {
 
         // score reduction is steeper for Challenger mode
@@ -95,6 +89,7 @@ public class pokemon extends Games{
                 score -= random/2;
         }
 
+        // the next in an looped chain will always be the stronger...
         if ((userChoice + 2) % 3 == opponentChoice) {
             System.out.println(oppPoke + " loses to " + userPoke);
             score += random;
@@ -108,5 +103,13 @@ public class pokemon extends Games{
         System.out.println("\nCurrent Score: " + score + "\n");
 
         return score;
+    }
+
+    private static void Exit(Player user, int iChooseYou, int score) {
+        if (iChooseYou == 0) {
+            System.out.println("User Exited.");
+            System.out.println("Score: " + score + "\n");
+            postGame(user, score, "pokemon");
+        }
     }
 }

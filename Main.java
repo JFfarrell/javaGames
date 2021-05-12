@@ -9,7 +9,8 @@ public class Main {
         Menus.mainMenu();
     }
 
-    public static int takeUserInput() {
+    public static int checkIfInt() {
+        // assess if the user inputted a string or int...recycle until correct input
         int inputValue = 0;
         Scanner userInput = new Scanner(System.in);
         if (userInput.hasNextInt()) {
@@ -19,12 +20,12 @@ public class Main {
             } catch (InputMismatchException ime) {
                 //Display Error message
                 System.out.println("Sorry, please try again, or press 0 to quit.");
-                inputValue = takeUserInput();
+                inputValue = checkIfInt();
             }
         }
         else {
             System.out.println("Sorry, please try again, or press 0 to quit..");
-            inputValue = takeUserInput();
+            inputValue = checkIfInt();
         }
         return inputValue;
     }

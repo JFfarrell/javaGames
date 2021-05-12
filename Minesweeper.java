@@ -14,7 +14,7 @@ public class Minesweeper extends Games {
              *** Minesweeper ***
             Avoid the bomb,
             guess as many correct numbers as you can!
-            Guess number between 1 and 5: """);
+            Guess number between 1 and 5:""");
 
         int max = 5;
         int min = 1;
@@ -47,11 +47,12 @@ public class Minesweeper extends Games {
                     "The bomb was on: " + random + "\n" +
                     "Score: " + score + "\n\n" +
                     "Guess again, or press 0 to quit.");
-            userGuess = Main.takeUserInput();
+            userGuess = Main.checkIfInt();
         }
     }
 
-    public static void checkInput(Player user, int userGuess, int random, int score, int max) {
+    private static void checkInput(Player user, int userGuess, int random, int score, int max) {
+        // various checks on user input throughout game
         if (userGuess == random) {
             System.out.println("""
                         (((≪*☆*KA-BOOM*☆*≫)))

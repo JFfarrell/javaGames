@@ -13,6 +13,7 @@ public class Games {
         username = user.getUsername();
     }
 
+    // return here after every game ends
     public static void postGame(Player user, int score, String game) {
         if (user instanceof Hack && score > 0) {
             System.out.println("Hack Privileges Activated: Score Doubled! \n");
@@ -24,20 +25,20 @@ public class Games {
                                 
                 Press 1 to return to the main menu.
                 Press 2 to choose a new game.""");
-        int userInput = Main.takeUserInput();
+        int userInput = Main.checkIfInt();
         if (userInput == 1)
-             Menus.mainMenu();
+            Menus.mainMenu();
         else if (userInput == 2)
-             Menus.gameSelect(user);
+            Menus.gameSelect(user);
         else {
-             System.out.println("""
+            System.out.println("""
                      Sorry, we don't understand...
                      Returning to game select menu.""");
-             Menus.gameSelect(user);
-         }
+            Menus.gameSelect(user);
+        }
     }
 
-    public static void writeToLeaderboard(String user, int score, String game) {
+    private static void writeToLeaderboard(String user, int score, String game) {
         if (score == 0)
             System.out.println("\nWell, that wasn't great...better luck next time!");
         if (score >  0) {
@@ -54,7 +55,7 @@ public class Games {
 
     public static int exitOrGuess(Player user, String game) {
         // check the user's input for errors.
-        int userGuess = Main.takeUserInput();
+        int userGuess = Main.checkIfInt();
 
         if (userGuess == 0)
             Games.postGame(user, 0, game);

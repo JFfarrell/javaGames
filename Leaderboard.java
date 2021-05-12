@@ -13,6 +13,7 @@ public class Leaderboard {
 
             // divide text file into lines/strings
             List<ArrayList<String>> sortedLeaderboard = splitLeaderboardFile(file);
+
             // display leaderboard contents
             System.out.println(game + " Leaderboard");
             System.out.println("-------------");
@@ -79,8 +80,9 @@ public class Leaderboard {
     }
 
     public static void printLeaderboard(List<ArrayList<String>> leaderboard) {
+        // print only first 10
         for (int x = 0; x < leaderboard.get(0).size(); x++) {
-            if (x < 15)
+            if (x < 10)
                 System.out.println(leaderboard.get(0).get(x) + " : " + leaderboard.get(1).get(x));
             try {
                 // delay for dramatic effect (*ﾟﾛﾟ)
@@ -91,7 +93,9 @@ public class Leaderboard {
             }
         }
     }
+
     public static void createLeaderboard(String game) {
+        // create leaderboard for game, if not already one made
         // code from https://www.w3schools.com/java/java_files_create.asp
         try {
             File myObj = new File(game+"Leaderboard.txt");

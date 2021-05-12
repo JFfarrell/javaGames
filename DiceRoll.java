@@ -26,7 +26,7 @@ public class DiceRoll extends Games {
 
     public static void game(Player user, int score, int max, int min) {
 
-        int userGuess = Main.takeUserInput();
+        int userGuess = Main.checkIfInt();
         if (userGuess == 0)
             Games.postGame(user, score, "dice");
 
@@ -60,7 +60,7 @@ public class DiceRoll extends Games {
             System.out.println("Good Guess, the dice roll was " + random);
             System.out.println("Score: " + score);
             System.out.println("Guess again, or press 0 to quit.");
-            userGuess = Main.takeUserInput();
+            userGuess = Main.checkIfInt();
         }
     }
 
@@ -72,7 +72,7 @@ public class DiceRoll extends Games {
                 There are now two numbers to avoid.
                 Your score will now grow twice as fast!""");
 
-        int userGuess = Main.takeUserInput();
+        int userGuess = Main.checkIfInt();
         if (userGuess == 0)
             Games.postGame(user, score, "dice");
 
@@ -109,7 +109,7 @@ public class DiceRoll extends Games {
             System.out.println("Good Guess, the rolls were " + random +" and " + random2 + ".");
             System.out.println("Score: " + score);
             System.out.println("Guess again, or press 0 to quit.");
-            userGuess = Main.takeUserInput();
+            userGuess = Main.checkIfInt();
         }
     }
 

@@ -17,6 +17,7 @@ public class Menus {
     }
 
     public static void createUserProfile(String username) {
+        // provision for alternative player types
         if (username.equals("12345")) {
             System.out.println("Welcome Hack. Please enter your username: ");
             String hackUsername = "Hack " + getUsername();
@@ -52,7 +53,7 @@ public class Menus {
 
     public static int userWelcome() {
         System.out.println("Press 1 to start, or 0 to quit.");
-        int userInput = Main.takeUserInput();
+        int userInput = Main.checkIfInt();
 
         while (userInput != 0 && userInput != 1) {
             System.out.println("Sorry, we don't understand.");
@@ -76,7 +77,7 @@ public class Menus {
         if (user instanceof Hack)
             System.out.println("Hack Profile detected.");
 
-        int userInput = Main.takeUserInput();
+        int userInput = Main.checkIfInt();
 
         if (userInput == 0) {
             mainMenu();
@@ -90,8 +91,8 @@ public class Menus {
 
         if (userInput == 2) {
             Leaderboard.createLeaderboard("pokemon");
-            pokemon battle = new pokemon(user);
-            pokemon.playRPS(user);
+            Pokemon battle = new Pokemon(user);
+            Pokemon.playPKMN(user);
         }
 
         if (userInput == 3) {
@@ -105,5 +106,4 @@ public class Menus {
             gameSelect(user);
         }
     }
-
 }
